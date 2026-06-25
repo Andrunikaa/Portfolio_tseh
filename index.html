@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ЦЕХ — Веб-разработка</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700&family=Inter:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #f7f7f5;
+        --text: #111110;
+        --muted: #6b6b67;
+        --faint: #9b9b96;
+        --border: rgba(17, 17, 16, 0.12);
+        --border-mid: rgba(17, 17, 16, 0.22);
+        --accent: #3b3dcc;
+        --accent-light: #e8e8ff;
+        --card-bg: #ffffff;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        font-weight: 300;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ── NAV ── */
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 28px 48px;
+        border-bottom: 0.5px solid var(--border);
+        position: sticky;
+        top: 0;
+        background: var(--bg);
+        z-index: 100;
+      }
+      .nav-logo {
+        font-family: "Unbounded", sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: 0.06em;
+        text-decoration: none;
+        color: var(--text);
+      }
+      .nav-links {
+        display: flex;
+        gap: 36px;
+        list-style: none;
+      }
+      .nav-links a {
+        font-size: 13px;
+        color: var(--muted);
+        text-decoration: none;
+        letter-spacing: 0.02em;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--text);
+      }
+      .nav-cta {
+        font-size: 13px;
+        color: var(--text);
+        text-decoration: none;
+        border: 0.5px solid var(--border-mid);
+        padding: 9px 22px;
+        border-radius: 40px;
+        transition:
+          background 0.2s,
+          border-color 0.2s;
+      }
+      .nav-cta:hover {
+        background: var(--text);
+        color: var(--bg);
+        border-color: var(--text);
+      }
+
+      /* ── HERO ── */
+      .hero {
+        padding: 88px 48px 0;
+        border-bottom: 0.5px solid var(--border);
+      }
+      .hero-eyebrow {
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--faint);
+        margin-bottom: 40px;
+      }
+      .hero-title {
+        font-family: "Unbounded", sans-serif;
+        font-weight: 700;
+        line-height: 1;
+      }
+      .hero-title .line1 {
+        font-size: clamp(48px, 8.5vw, 96px);
+        display: block;
+      }
+      .hero-title .line2 {
+        font-size: clamp(48px, 8.5vw, 96px);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .accent-bar {
+        display: inline-block;
+        width: 9px;
+        height: clamp(40px, 7vw, 80px);
+        background: var(--accent);
+        border-radius: 4px;
+        flex-shrink: 0;
+      }
+      .line2-text {
+        color: var(--accent);
+      }
+
+      .hero-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        padding: 52px 0 44px;
+        gap: 40px;
+        flex-wrap: wrap;
+      }
+      .hero-desc {
+        font-size: 15px;
+        line-height: 1.75;
+        color: var(--muted);
+        max-width: 400px;
+      }
+      .hero-stats {
+        display: flex;
+        gap: 52px;
+      }
+      .stat-item {
+        text-align: right;
+      }
+      .stat-num {
+        font-family: "Unbounded", sans-serif;
+        font-size: 34px;
+        font-weight: 300;
+        display: block;
+        line-height: 1;
+      }
+      .stat-label {
+        font-size: 11px;
+        color: var(--faint);
+        margin-top: 7px;
+        display: block;
+        letter-spacing: 0.08em;
+      }
+
+      /* ── SECTIONS ── */
+      .section {
+        padding: 88px 48px;
+        border-bottom: 0.5px solid var(--border);
+      }
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 60px;
+      }
+      .section-title {
+        font-family: "Unbounded", sans-serif;
+        font-size: 10px;
+        font-weight: 400;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--faint);
+      }
+      .section-num {
+        font-size: 11px;
+        color: var(--faint);
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* ── ABOUT ── */
+      .about-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 88px;
+        align-items: start;
+      }
+      .about-heading {
+        font-family: "Unbounded", sans-serif;
+        font-size: clamp(22px, 3vw, 36px);
+        font-weight: 300;
+        line-height: 1.25;
+      }
+      .about-body {
+        font-size: 15px;
+        line-height: 1.8;
+        color: var(--muted);
+      }
+      .about-body p + p {
+        margin-top: 20px;
+      }
+
+      /* ── ADVANTAGES ── */
+      .adv-section {
+        padding: 0;
+        border-bottom: 0.5px solid var(--border);
+      }
+      .adv-section-header {
+        padding: 88px 48px 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+      }
+      .adv-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .adv-item {
+        padding: 44px 48px;
+        border-top: 0.5px solid var(--border);
+        border-right: 0.5px solid var(--border);
+      }
+      .adv-item:nth-child(3n) {
+        border-right: none;
+      }
+      .adv-icon {
+        width: 38px;
+        height: 38px;
+        border: 0.5px solid var(--border-mid);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 28px;
+        color: var(--accent);
+      }
+      .adv-icon svg {
+        width: 18px;
+        height: 18px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .adv-title {
+        font-family: "Unbounded", sans-serif;
+        font-size: 12px;
+        font-weight: 400;
+        margin-bottom: 14px;
+        line-height: 1.4;
+      }
+      .adv-text {
+        font-size: 13px;
+        line-height: 1.75;
+        color: var(--muted);
+      }
+
+      /* ── PROJECTS ── */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+      .project-card {
+        border: 0.5px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        background: var(--card-bg);
+        cursor: pointer;
+        transition:
+          border-color 0.25s,
+          transform 0.25s;
+      }
+      .project-card:hover {
+        border-color: var(--border-mid);
+        transform: translateY(-2px);
+      }
+      .project-card.featured {
+        grid-column: 1 / -1;
+      }
+
+      .card-img {
+        background: #eeede9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .project-card.featured .card-img {
+        height: 360px;
+      }
+      .project-card:not(.featured) .card-img {
+        height: 220px;
+      }
+      .card-img-label {
+        font-size: 11px;
+        color: var(--faint);
+        letter-spacing: 0.08em;
+      }
+      .card-body {
+        padding: 24px 28px 28px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .card-tag {
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--faint);
+        margin-bottom: 8px;
+      }
+      .card-name {
+        font-family: "Unbounded", sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+      }
+      .card-arrow {
+        color: var(--faint);
+        flex-shrink: 0;
+        margin-top: 2px;
+        transition:
+          color 0.2s,
+          transform 0.2s;
+      }
+      .project-card:hover .card-arrow {
+        color: var(--accent);
+        transform: translate(2px, -2px);
+      }
+
+      /* ── PROCESS ── */
+      .process-item {
+        display: grid;
+        grid-template-columns: 52px 1fr 1fr;
+        gap: 32px;
+        align-items: start;
+        padding: 36px 0;
+        border-bottom: 0.5px solid var(--border);
+      }
+      .process-item:last-child {
+        border-bottom: none;
+      }
+      .process-step {
+        font-size: 11px;
+        color: var(--faint);
+        padding-top: 2px;
+      }
+      .process-name {
+        font-family: "Unbounded", sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+      }
+      .process-desc {
+        font-size: 13px;
+        line-height: 1.75;
+        color: var(--muted);
+      }
+
+      /* ── CTA ── */
+      .cta-section {
+        padding: 120px 48px;
+        text-align: center;
+      }
+      .cta-title {
+        font-family: "Unbounded", sans-serif;
+        font-size: clamp(28px, 4.5vw, 56px);
+        font-weight: 300;
+        line-height: 1.15;
+        margin-bottom: 48px;
+        max-width: 620px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .cta-title strong {
+        font-weight: 700;
+        color: var(--accent);
+      }
+      .cta-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--text);
+        color: var(--bg);
+        text-decoration: none;
+        padding: 16px 40px;
+        border-radius: 40px;
+        font-size: 14px;
+        font-family: "Inter", sans-serif;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        transition: opacity 0.2s;
+      }
+      .cta-btn:hover {
+        opacity: 0.8;
+      }
+      .cta-btn svg {
+        width: 16px;
+        height: 16px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+      }
+
+      /* ── FOOTER ── */
+      .footer {
+        padding: 32px 48px;
+        border-top: 0.5px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .footer-copy {
+        font-size: 12px;
+        color: var(--faint);
+      }
+      .footer-links {
+        display: flex;
+        gap: 28px;
+        list-style: none;
+      }
+      .footer-links a {
+        font-size: 12px;
+        color: var(--faint);
+        text-decoration: none;
+      }
+      .footer-links a:hover {
+        color: var(--text);
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 768px) {
+        .nav {
+          padding: 20px 24px;
+        }
+        .nav-links {
+          display: none;
+        }
+        .hero {
+          padding: 60px 24px 0;
+        }
+        .hero-bottom {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .hero-stats {
+          gap: 32px;
+        }
+        .stat-item {
+          text-align: left;
+        }
+        .section {
+          padding: 60px 24px;
+        }
+        .about-layout {
+          grid-template-columns: 1fr;
+          gap: 36px;
+        }
+        .adv-section-header {
+          padding: 60px 24px 48px;
+        }
+        .adv-grid {
+          grid-template-columns: 1fr;
+        }
+        .adv-item {
+          border-right: none;
+          padding: 36px 24px;
+        }
+        .adv-item:nth-child(3n) {
+          border-right: none;
+        }
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+        .project-card.featured {
+          grid-column: 1;
+        }
+        .process-item {
+          grid-template-columns: 36px 1fr;
+        }
+        .process-desc {
+          grid-column: 2;
+        }
+        .cta-section {
+          padding: 80px 24px;
+        }
+        .footer {
+          padding: 24px;
+          flex-direction: column;
+          gap: 16px;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <a href="#" class="nav-logo">ЦЕХ</a>
+      <ul class="nav-links">
+        <li><a href="#projects">Проекты</a></li>
+        <li><a href="#about">О нас</a></li>
+        <li><a href="#process">Процесс</a></li>
+      </ul>
+      <a href="#contact" class="nav-cta">Обсудить проект</a>
+    </nav>
+
+    <header class="hero">
+      <p class="hero-eyebrow">Веб-студия · Москва</p>
+      <h1 class="hero-title">
+        <span class="line1">Делаем сайты,</span>
+        <span class="line2">
+          <span class="accent-bar"></span>
+          <span class="line2-text">которые работают</span>
+        </span>
+      </h1>
+      <div class="hero-bottom">
+        <p class="hero-desc">
+          Проектируем и разрабатываем цифровые продукты для бизнеса — от
+          лендингов до сложных сервисов. Думаем о результате, а не только о
+          внешнем виде.
+        </p>
+        <div class="hero-stats">
+          
+      </div>
+    </header>
+
+    <section class="section" id="about">
+      <div class="section-header">
+        <span class="section-title">О студии</span>
+        <span class="section-num">01</span>
+      </div>
+      <div class="about-layout">
+        <h2 class="about-heading">
+          Небольшая команда с большим вниманием к деталям
+        </h2>
+        <div class="about-body">
+          <p>
+            Мы не делаем сайты по шаблонам. Каждый проект начинается с
+            погружения в бизнес клиента — его цели, аудиторию и контекст. Только
+            после этого мы приступаем к дизайну и разработке.
+          </p>
+          <p>
+            В команде дизайнеры, разработчики и менеджер. Никаких посредников —
+            вы всегда работаете напрямую с теми, кто делает ваш продукт.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="adv-section">
+      <div class="adv-section-header">
+        <span class="section-title">Почему мы</span>
+        <span class="section-num">02</span>
+      </div>
+      <div class="adv-grid">
+        <div class="adv-item">
+          <div class="adv-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          </div>
+          <p class="adv-title">Дизайн как инструмент</p>
+          <p class="adv-text">
+            Красиво — это следствие, а не цель. Мы проектируем так, чтобы
+            посетитель делал нужное действие.
+          </p>
+        </div>
+        <div class="adv-item">
+          <div class="adv-icon">
+            <svg viewBox="0 0 24 24">
+              <polyline points="16 18 22 12 16 6" />
+              <polyline points="8 6 2 12 8 18" />
+            </svg>
+          </div>
+          <p class="adv-title">Чистый код</p>
+          <p class="adv-text">
+            Пишем без лишних зависимостей. Сайт быстро грузится, легко
+            поддерживается и масштабируется.
+          </p>
+        </div>
+        <div class="adv-item">
+          <div class="adv-icon">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+          </div>
+          <p class="adv-title">Срок — не пустое слово</p>
+          <p class="adv-text">
+            За 4 года ни разу не сорвали дедлайн. Если что-то меняется — говорим
+            заранее.
+          </p>
+        </div>
+        <div class="adv-item">
+          <div class="adv-icon">
+            <svg viewBox="0 0 24 24">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </svg>
+          </div>
+          <p class="adv-title">Фокус на результат</p>
+          <p class="adv-text">
+            Следим за метриками после запуска и помогаем улучшать конверсию, а
+            не просто сдаём работу.
+          </p>
+        </div>
+        <div class="adv-item">
+          <div class="adv-icon">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+              />
+            </svg>
+          </div>
+          <p class="adv-title">Понятная коммуникация</p>
+          <p class="adv-text">
+            Еженедельные апдейты, доступ к задачам, честные ответы — без воды и
+            корпоративного жаргона.
+          </p>
+        </div>
+        <div class="adv-item">
+          <div class="adv-icon">
+            <svg viewBox="0 0 24 24">
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+              <line x1="12" y1="18" x2="12.01" y2="18" />
+            </svg>
+          </div>
+          <p class="adv-title">Mobile-first всегда</p>
+          <p class="adv-text">
+            Больше половины трафика — с телефонов. Проектируем с мобильных, а не
+            адаптируем «потом».
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <section class="section" id="projects">
+      <div class="section-header">
+        <span class="section-title">Проекты</span>
+        <span class="section-num">03</span>
+      </div>
+      <div class="projects-grid">
+        <!-- Большая карточка -->
+        <div class="project-card featured">
+          <div class="card-img">
+            <!-- Сюда вставьте <img src="..." alt="..."> -->
+            <span class="card-img-label">Изображение проекта</span>
+          </div>
+          <div class="card-body">
+            <div>
+              <p class="card-tag">Интернет-магазин · 2024</p>
+              <p class="card-name">Название проекта 1</p>
+            </div>
+            <svg
+              class="card-arrow"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            >
+              <line x1="7" y1="17" x2="17" y2="7" />
+              <polyline points="7 7 17 7 17 17" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Карточка 2 -->
+        <div class="project-card">
+          <div class="card-img">
+            <span class="card-img-label">Изображение проекта</span>
+          </div>
+          <div class="card-body">
+            <div>
+              <p class="card-tag">Лендинг · 2024</p>
+              <p class="card-name">Название проекта 2</p>
+            </div>
+            <svg
+              class="card-arrow"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            >
+              <line x1="7" y1="17" x2="17" y2="7" />
+              <polyline points="7 7 17 7 17 17" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Карточка 3 -->
+        <div class="project-card">
+          <div class="card-img">
+            <span class="card-img-label">Изображение проекта</span>
+          </div>
+          <div class="card-body">
+            <div>
+              <p class="card-tag">Корпоративный сайт · 2023</p>
+              <p class="card-name">Название проекта 3</p>
+            </div>
+            <svg
+              class="card-arrow"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            >
+              <line x1="7" y1="17" x2="17" y2="7" />
+              <polyline points="7 7 17 7 17 17" />
+            </svg>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="card-img">
+            <span class="card-img-label">Изображение проекта</span>
+          </div>
+          <div class="card-body">
+            <div>
+              <p class="card-tag">Корпоративный сайт · 2023</p>
+              <p class="card-name">Название проекта 4</p>
+            </div>
+            <svg
+              class="card-arrow"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            >
+              <line x1="7" y1="17" x2="17" y2="7" />
+              <polyline points="7 7 17 7 17 17" />
+            </svg>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="card-img">
+            <span class="card-img-label">Изображение проекта</span>
+          </div>
+          <div class="card-body">
+            <div>
+              <p class="card-tag">Корпоративный сайт · 2023</p>
+              <p class="card-name">Название проекта 5</p>
+            </div>
+            <svg
+              class="card-arrow"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            >
+              <line x1="7" y1="17" x2="17" y2="7" />
+              <polyline points="7 7 17 7 17 17" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="process">
+      <div class="section-header">
+        <span class="section-title">Как работаем</span>
+        <span class="section-num">04</span>
+      </div>
+      <div>
+        <div class="process-item">
+          <span class="process-step">01</span>
+          <p class="process-name">Брифинг</p>
+          <p class="process-desc">
+            Разбираемся в задаче, целевой аудитории и конкурентах.
+            Договариваемся о результате.
+          </p>
+        </div>
+        <div class="process-item">
+          <span class="process-step">02</span>
+          <p class="process-name">Прототип</p>
+          <p class="process-desc">
+            Проектируем структуру и логику до пикселей. Утверждаем вместе.
+          </p>
+        </div>
+        <div class="process-item">
+          <span class="process-step">03</span>
+          <p class="process-name">Дизайн</p>
+          <p class="process-desc">
+            Создаём визуальный язык — цвет, типографика, компоненты. Показываем
+            на реальном контенте.
+          </p>
+        </div>
+        <div class="process-item">
+          <span class="process-step">04</span>
+          <p class="process-name">Разработка</p>
+          <p class="process-desc">
+            Верстаем и кодим. Регулярные демо, доступ к staging-среде в любой
+            момент.
+          </p>
+        </div>
+        <div class="process-item">
+          <span class="process-step">05</span>
+          <p class="process-name">Запуск и поддержка</p>
+          <p class="process-desc">
+            Деплоим, настраиваем аналитику, остаёмся на связи после запуска.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section" id="contact">
+      <h2 class="cta-title">Готовы обсудить <strong>ваш проект?</strong></h2>
+      <a href="mailto:hello@studio.ru" class="cta-btn">
+        Написать нам
+        <svg viewBox="0 0 24 24">
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
+      </a>
+    </section>
+
+    <footer class="footer">
+      <span class="footer-copy">© 2024 ЦЕХ</span>
+      <ul class="footer-links">
+        <li><a href="#">Telegram</a></li>
+        <li><a href="#">Behance</a></li>
+        <li><a href="#">hello@studio.ru</a></li>
+      </ul>
+    </footer>
+  </body>
+</html>
